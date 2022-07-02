@@ -1,0 +1,139 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <title>Read</title>
+    <style>
+      select {
+        width: 70%;
+        margin-bottom: 10px;
+      }
+      #rest-table {
+        padding-top: 40px;
+        padding-left: 200px;
+      }
+      #search {
+        padding-left: 70px;
+      }
+      .subtitle {
+        background-color: whitesmoke;
+        border-top: 2px solid;
+        min-height: 100%;
+      }
+      .heading {
+        background-color: #dee1e3;
+        height: 170px;
+        width: 100%;
+        margin-bottom: 0;
+        padding-top: 15px;
+        text-align: center;
+      }
+      .hero-body {
+        margin-top: 0;
+        padding-top: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar" style="background-color:#152934">
+      <div class="navbar-brand">
+        <h1 class="title is-1" style="color: #dee1e3">Read Restaurant</h1>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-light" href="/logout" style="color: black">Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <div class="heading">
+            <h1 class="title is-1">Restaurant</h1>
+            <h3 class="title is-3">User: <b><%=self%></b></h3>
+          </div>
+
+            <div class="subtitle">
+              <div class="columns" id="search">
+                <div class="column is-one-fifth">
+                  <div class="section">
+                    <form method="get" action="/read">
+                      <label for="name">Restaurant Name:</label><br/>
+                      <select id="name" name="name">
+                        <option></option>
+                        <% restaurant.forEach( r => { if (r.name != "") { %>
+                        <option value="<%=r.name%>" ><%=r.name%></option>
+                        <% }}) %>
+                      </select><br/>
+
+                      <label for="borough">Borough:</label><br/>
+                      <select id="borough" name="borough">
+                        <option></option>
+                        <% restaurant.forEach( r => { if (r.borough != "") { %>
+                        <option value="<%=r.borough%>" ><%=r.borough%></option>
+                        <% }}) %>
+                      </select><br/>
+
+                      <label for="cuisine">Cuisine:</label><br/>
+                      <select id="cuisine" name="cuisine">
+                        <option></option>
+                        <% restaurant.forEach( r => { if (r.cuisine != "") { %>
+                        <option value="<%=r.cuisine%>" ><%=r.cuisine%></option>
+                        <% }}) %>
+                      </select><br/>
+                      <div class="field is-grouped">
+                        <div class="control">
+                          <button class="button is-link">Search</button>
+                        </div>
+                      </div>
+                    </form>
+                    <form method="get" action="/read">
+                      <div class="field is-grouped">
+                        <div class="control">
+                          <button class="button is-link">Clear search</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                <div class="column" id="rest-table">
+                  <div class="control">
+                    <a class="button is-text" href="/create" style="color: black">Create New Restaurant</a>
+                  </div>
+
+                  <div class="content">
+                    <p class="title is-3 is-spaced">Restaurant:</p>
+                    <ol>
+                      <% restaurant.forEach( r => {
+                        if ((query.name == r.name || query.name == "" || query.name == null)&&
+                            (query.borough == r.borough || query.borough == "" || query.borough == null)&&
+                            (query.cuisine == r.cuisine || query.cuisine == "" || query.cuisine == null)){
+                      %>
+                      <li>
+                        <div class="control">
+                          <a class="button is-text" href="/display?_id=<%=r._id %>"><%= r.name %></a>
+                        </div>
+                      </li>
+                      <% }}) %>
+                    </ol>
+
+                    <% if (restaurant.length == 0) { %>
+                    <p>No restaurants found</p>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </section>
+
+
+  </body>
+</html>
